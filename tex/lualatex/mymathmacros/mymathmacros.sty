@@ -1,0 +1,267 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{mymathmacros}[2021/04/06 v1.0 Mathematics macros for personal use]
+
+% Erik Babuschkin's Math Macros
+% =============================
+% Version 1.0
+
+% Required Packages
+% -----------------
+% Require `xparse` for LaTeX3 syntax
+\RequirePackage{xparse}
+
+% Mathematical macros from the AMS
+\RequirePackage{amsthm}
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{mathtools} % For PairedDelimiter and other tools
+
+% Set up `unicode-math` with ISO compliant options.
+%\RequirePackage[%
+%	math-style=ISO,%
+%	bold-style=ISO,%
+%	sans-style=italic,%
+%	nabla=upright,%
+%	partial=upright,% warnings-off={%
+%		mathtools-colon,%
+%		mathtools-overbracket,%
+%	},%
+%]{unicode-math}
+% Provide translations of theorem style blocks (Theorem, Definition, etc.)
+\RequirePackage{translations}
+
+% For use in list inside of theorem writing macros
+\RequirePackage{enumitem}
+
+% Set up the theorem environments
+% -------------------------------
+% Fallback strings (Just english for now)
+\DeclareTranslationFallback{thm}{Theorem}
+\DeclareTranslationFallback{defn}{Definition}
+\DeclareTranslationFallback{cor}{Corollary}
+\DeclareTranslationFallback{prop}{Proposition}
+\DeclareTranslationFallback{clm}{Claim}
+\DeclareTranslationFallback{rem}{Remark}
+\DeclareTranslationFallback{ax}{Axiom}
+\DeclareTranslationFallback{lem}{Lemma}
+\DeclareTranslationFallback{exe}{Exercise}
+\DeclareTranslationFallback{exm}{Example}
+\DeclareTranslationFallback{schol}{Scholium}
+\DeclareTranslationFallback{tfae}{The following are equivalent.}
+
+% English dictionary of theorem words
+\DeclareTranslation{English}{thm}{Theorem}
+\DeclareTranslation{English}{defn}{Definition}
+\DeclareTranslation{English}{cor}{Corollary}
+\DeclareTranslation{English}{prop}{Proposition}
+\DeclareTranslation{English}{clm}{Claim}
+\DeclareTranslation{English}{rem}{Remark}
+\DeclareTranslation{English}{ax}{Axiom}
+\DeclareTranslation{English}{lem}{Lemma}
+\DeclareTranslation{English}{exe}{Exercise}
+\DeclareTranslation{English}{exm}{Example}
+\DeclareTranslationFallback{schol}{Scholium}
+\DeclareTranslation{English}{tfae}{The following are equivalent.}
+
+% German dictionary of theorem words
+\DeclareTranslation{German}{thm}{Theorem}
+\DeclareTranslation{German}{defn}{Definition}
+\DeclareTranslation{German}{cor}{Korollar}
+\DeclareTranslation{German}{prop}{Proposition}
+\DeclareTranslation{German}{clm}{Behauptung}
+\DeclareTranslation{German}{rem}{Bemerkung}
+\DeclareTranslation{German}{ax}{Axiom}
+\DeclareTranslation{German}{lem}{Lemma}
+\DeclareTranslation{German}{exe}{Aufgabe}
+\DeclareTranslation{German}{exm}{Beispiel}
+\DeclareTranslation{German}{tfae}{Die folgenden Aussagen sind äquivalent.}
+
+% French dictionary of theorem words
+\DeclareTranslation{French}{thm}{Théorème}
+\DeclareTranslation{French}{defn}{Définition}
+\DeclareTranslation{French}{cor}{Corollaire}
+\DeclareTranslation{French}{prop}{Proposition}
+\DeclareTranslation{French}{clm}{Assertion}
+\DeclareTranslation{French}{rem}{Remarque}
+\DeclareTranslation{French}{ax}{Axiome}
+\DeclareTranslation{French}{lem}{Lemme}
+\DeclareTranslation{French}{exe}{Exercice}
+\DeclareTranslation{French}{exm}{Exemple}
+
+% Theorem styles for the AMS Theorem Package.
+\swapnumbers
+\theoremstyle{plain}
+\newtheorem{thm}{\GetTranslation{thm}}[section]
+\newtheorem{prop}[thm]{\GetTranslation{prop}}
+\newtheorem{cor}[thm]{\GetTranslation{cor}}
+\newtheorem{lem}[thm]{\GetTranslation{lem}}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{\GetTranslation{defn}}
+\newtheorem{exe}[thm]{\GetTranslation{exe}}
+\newtheorem{exm}[thm]{\GetTranslation{exm}}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{\GetTranslation{rem}}
+\newtheorem{clm}[thm]{\GetTranslation{clm}}
+
+% Set up macros for frequent mathematical notation
+% ------------------------------------------------
+% ### Paired delimiters
+
+% Usual parenthesis (for easy access)
+\DeclarePairedDelimiter{\paren}{\lparen}{\rparen}
+% Norm
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+% Absolute value
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+% Inner product
+\DeclarePairedDelimiterX{\innerp}[2]{\langle}{\rangle}{#1, #2}
+% Separation symbol for set builder notation
+\ProvideDocumentCommand{\given}{}{}
+\NewDocumentCommand{\SetSymbol}{o}{%
+	\nonscript\:#1\vert
+	\allowbreak
+	\nonscript\:
+	\mathopen{}%
+}%
+
+\DeclarePairedDelimiterX{\Set}[1]{\{}{\}}{%
+	\RenewDocumentCommand{\given}{}{\SetSymbol[\delimsize]}%
+	#1%
+}%
+
+\DeclarePairedDelimiterX{\Pres}[1]{\langle}{\rangle}{%
+	\RenewDocumentCommand{\given}{}{\SetSymbol[\delimsize]}
+	#1
+}
+
+% ### Text-style operators
+% Support of a function or measure
+\DeclareMathOperator{\supp}{supp}
+% Divergence
+\DeclareMathOperator{\divergence}{div}
+% Gradient
+\DeclareMathOperator{\grad}{grad}
+% Trace
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\tr}{tr}
+% Rank
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\rk}{rk}
+\DeclareMathOperator{\Rank}{Rank}
+% Hausdorff Measure
+\DeclareMathOperator{\hausdorff}{\mathscr{H}}
+% Lebesgue Measure
+\DeclareMathOperator{\lebesgue}{\mathscr{L}}
+% Space of functions of bounded variation
+\DeclareMathOperator{\BV}{BV}
+% Identity function
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\Id}{Id}
+% General linear group
+\DeclareMathOperator{\GL}{GL}
+% Special linear group
+\DeclareMathOperator{\SL}{SL}
+% Orthogonal group
+\DeclareMathOperator{\Orth}{O}
+% Special orthogonal group
+\DeclareMathOperator{\SO}{SO}
+% Unitary group
+\DeclareMathOperator{\Unitary}{U}
+% Special unitary group
+\DeclareMathOperator{\SU}{SU}
+% Symplectic group
+\DeclareMathOperator{\Sp}{Sp}
+% Projective general linear group
+\DeclareMathOperator{\PGL}{PSL}
+% Projective special linear group
+\DeclareMathOperator{\PSL}{PSL}
+% Set distance
+\DeclareMathOperator{\dist}{dist}
+% Isometry group
+\DeclareMathOperator{\Isom}{Isom}
+
+% Now we will use LaTeX3 syntax
+\ExplSyntaxOn
+
+% ### Shortcuts
+% Natural numbers
+\NewDocumentCommand{\NN}{}{\field{N}}
+% Integers
+\NewDocumentCommand{\ZZ}{}{\field{Z}}
+% Rational numbers
+\NewDocumentCommand{\QQ}{}{\field{Q}}
+% Real numbers
+\NewDocumentCommand{\RR}{}{\field{R}}
+% Complex numbers
+\NewDocumentCommand{\CC}{}{\field{C}}
+% Octonions
+\NewDocumentCommand{\OO}{}{\field{O}}
+% Finite field
+\NewDocumentCommand{\FF}{}{\field{F}}
+% Euler constant
+\NewDocumentCommand{\E}{}{\symup{e}}
+% Circle constant pi
+\NewDocumentCommand{\PI}{}{\symup{\pi}}
+% Power set symbol
+\NewDocumentCommand{\powerset}{}{\mathcal{P}}
+
+
+% ### Binary operators
+% Up and down arrows for limits
+\NewDocumentCommand{\downto}{}{\mathbin{\downarrow}}
+\NewDocumentCommand{\upto}{}{\mathbin{\uparrow}}
+% W-* convergence arrow
+\NewDocumentCommand{\wstarTo}{}{\overset{\ast}{\relbar\joinrel\rightharpoonup}}
+% Local convergence arrow
+\NewDocumentCommand{\locTo}{}{\overset{\textrm{loc.}}{\longrightarrow}}
+
+% ### Unary operators
+% Topology
+\NewDocumentCommand{\bdry}{m}{\mathup{\partial} #1}
+% The d in in a differential, e.g. dx
+\NewDocumentCommand{\dif}{m}{\mathinner{\mathup{d}\!} #1}
+
+% ### Semantic macros
+% Macros with the sole purpose of making the code more semantic,
+% meant to be overwritten in order to adapt them to a certain notation style
+% Generic Hilbert space
+\NewDocumentCommand{\hilbert}{}{\mathcal{H}}
+% Spheres
+\NewDocumentCommand{\sphere}{}{\mathbb{S}}
+% Homology functor
+\DeclareMathOperator{\homology}{\mathit{H}}
+% Indicator function
+\NewDocumentCommand{\ind}{}{\mathbfup{1}}
+% Symmetric difference
+\NewDocumentCommand{\symdiff}{}{\vartriangle}
+
+% ### Other macros
+\NewDocumentCommand{\field}{m}{\mathbb{#1}}
+\NewDocumentCommand{\map}{m m m}{{#1\colon #2 \to #3}}
+
+% Theorem writing macros
+
+% A consistent style for lists of statements in theorems.
+% Overwrite using \setlist (see enumitem docs) to customize!
+\newlist{statements}{enumerate}{3}
+% For added semantics and customizability, we add a few more
+\newlist{definitions}{enumerate}{3}
+\newlist{examples}{enumerate}{3}
+\newlist{remarks}{enumerate}{3}
+% List style
+\setlist[statements,definitions,examples,remarks]{label=\emph{(\roman*)}}
+
+% "The following are equivalent" style theorem
+\NewDocumentEnvironment{tfae}{ O{thm} }{
+	\begin{#1}
+		\GetTranslation{tfae}
+		\begin{statements}
+}
+{
+		\end{statements}
+	\end{#1}%
+}
+% Turn off LaTeX3 syntax
+\ExplSyntaxOff
